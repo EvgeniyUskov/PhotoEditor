@@ -176,10 +176,12 @@ class ViewController: UIViewController {
         
         if image.isBusy == true{
             let alert = UIAlertController(title: "Изображение обрабатывается...", message: "Подалуйста подождите.", preferredStyle: .alert )
+            alert.pruneNegativeWidthConstraints()
             alert.addAction(UIAlertAction(title: "Отмена", style: .default, handler: nil))
             self.present(alert, animated: true)
         } else {
             let alert = UIAlertController(title: "Выберите действие над изображением.", message: nil, preferredStyle: .actionSheet)
+            alert.pruneNegativeWidthConstraints()
             alert.addAction(UIAlertAction(title: "Сохранить в галерею", style: .default, handler: {
                 [unowned self] _ in
                 if let image = image.image {
@@ -264,7 +266,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let dimension = imageCollectionView.bounds.width / 3.3
+        let dimension = imageCollectionView.bounds.width / 3.25
         return CGSize(width: dimension, height: dimension)
     }
     

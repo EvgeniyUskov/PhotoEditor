@@ -3,15 +3,18 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "UICollectionViewViewModel.editEditedImage(row:):UICollectionViewViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static UIImage.writeToDocumentsfolder(imageViewModel:):UIImage.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ViewController.loadImages():ViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = " try self.context.fetch(request)">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static UIImage.writeToDocumentsfolder(imageViewModel:):UIImage.swift">
       </ContextState>
       <ContextState
          contextName = "closure #3 in ViewController.showCellAlert(at:):ViewController.swift">
@@ -67,16 +70,27 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ViewController.collectionView(_:layout:sizeForItemAt:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageCollectionView.bounds.width">
+            </PersistentString>
+            <PersistentString
+               value = "imageCollectionView.bounds.width / 3.3">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "specialized closure #1 in ViewController.invertColors(row:completion:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "UIImage.Orientation.down.rawValue">
+               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
             </PersistentString>
             <PersistentString
                value = "image.imageOrientation">
             </PersistentString>
             <PersistentString
-               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
+               value = "UIImage.Orientation.down.rawValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -89,6 +103,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "UICollectionViewViewModelTests.testAddImageToLibrary():UICollectionViewViewModelTests.swift">
+      </ContextState>
+      <ContextState
          contextName = "UIImage.crop():UIImage.swift">
          <PersistentStrings>
             <PersistentString
@@ -97,7 +114,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "UICollectionViewViewModelTests.testAddImageToLibrary():UICollectionViewViewModelTests.swift">
+         contextName = "UICollectionViewViewModelTests.tearDownWithError():UICollectionViewViewModelTests.swift">
       </ContextState>
       <ContextState
          contextName = "LoadingViewController.setupView():LoadingViewController.swift">
@@ -114,9 +131,6 @@
                value = "&quot;IMG_\(String(format: &quot;%04d&quot;, counter)).jpg&quot;">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "UICollectionViewViewModelTests.tearDownWithError():UICollectionViewViewModelTests.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in UICollectionViewModel.addImageToLibraryInternal(image:busy:):UICollectionViewModel.swift">
