@@ -202,12 +202,14 @@ class ViewController: UIViewController {
                         showInitialUIElements()
                     }
                     imageCollectionView.reloadData()
+                    if !viewModel.isLibraryEmpty() {
+                        imageView.image = UIImage.readFromDocumentsFolder(withName: viewModel.library![viewModel.library!.count - 1].name!)
+                    }
                     DispatchQueue.global().async {
                         if let name = image.name {
                             UIImage.deleteFromDocumentsFolder(withName: name)
                         }
                     }
-                    
                     viewModel.deleteData(at: indexPath.row)
                 }
             } ))
