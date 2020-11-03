@@ -1,6 +1,6 @@
 # PhotoEditor
 
-by Eugene Uskov. e-mail: mailto:uskoves@gmail.com 
+by Eugene Uskov. e-mail: uskoves@gmail.com 
 
 # Общие ОБЯЗАТЕЛЬНЫЕ требования: 
 
