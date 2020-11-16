@@ -3,49 +3,36 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "UICollectionViewViewModel.editEditedImage(row:):UICollectionViewViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "static UIImage.writeToDocumentsfolder(imageViewModel:):UIImage.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in ViewController.loadImages():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = " try self.context.fetch(request)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #3 in ViewController.showCellAlert(at:):ViewController.swift">
       </ContextState>
       <ContextState
          contextName = "ViewController.imagePickerController(_:didFinishPickingMediaWithInfo:):ViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "ViewController.counter.getter:ViewController.swift">
+         contextName = "closure #1 in ViewController.editImageInLibrary(image:atRow:):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.editImageInLibrary(image:atRow:):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "specialized closure #1 in ViewController.invertColors(row:completion:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "defaults.integer(forKey: imageCounter)">
+               value = "UIImage.Orientation.down.rawValue">
+            </PersistentString>
+            <PersistentString
+               value = "image.imageOrientation">
+            </PersistentString>
+            <PersistentString
+               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.flipHor():ViewController.swift">
+         contextName = "UICollectionViewViewModel.editEditedImage(row:):UICollectionViewViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in ViewController.viewDidLoad():ViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.initLibrary():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "UIImage.readFromDocumentsFolder(urlString: editedImage.imageUrl!)">
-            </PersistentString>
-            <PersistentString
-               value = "editedImage.imageUrl">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ViewController.invertColors():ViewController.swift">
@@ -59,13 +46,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in UICollectionViewModel.editImageInLibraryInternal(image:atPosition:):UICollectionViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.invertColors(row:completion:):ViewController.swift">
+         contextName = "ViewController.counter.getter:ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell">
+               value = "defaults.integer(forKey: imageCounter)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -81,85 +65,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "specialized closure #1 in ViewController.invertColors(row:completion:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
-            </PersistentString>
-            <PersistentString
-               value = "image.imageOrientation">
-            </PersistentString>
-            <PersistentString
-               value = "UIImage.Orientation.down.rawValue">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.addImageToLibrary(image:busy:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "imageViewModel.name">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "UICollectionViewViewModelTests.testAddImageToLibrary():UICollectionViewViewModelTests.swift">
-      </ContextState>
-      <ContextState
-         contextName = "UIImage.crop():UIImage.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.cgImage?.cropping(to: rect.applying(rectTransform))">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "UICollectionViewViewModelTests.tearDownWithError():UICollectionViewViewModelTests.swift">
-      </ContextState>
-      <ContextState
-         contextName = "LoadingViewController.setupView():LoadingViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "loadingScreenView.activityIndicatorView.isHidden">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static UIImage.getImageName():UIImage.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "&quot;IMG_\(String(format: &quot;%04d&quot;, counter)).jpg&quot;">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in UICollectionViewModel.addImageToLibraryInternal(image:busy:):UICollectionViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.invertColors(_:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.row">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.editImageInLibrary(image:atPosition:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "library[row].name">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.activateProgressView(forRow:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in LoadingViewController.initLibrary():LoadingViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -171,7 +76,153 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in ViewController.addImageToLibrary(image:busy:):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.editImageInLibrary(image:atPosition:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "library[row].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UICollectionViewViewModel.editImageInLibraryInternal(image:atRow:completion:):UICollectionViewViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in MirrorImageFilter.applyFilter(viewModel:image:completion:):MirrorImageFilter.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.invertColors(row:completion:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageCollectionViewCell.setup(imageViewModel:):ImageCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "image?.image!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UICollectionViewViewModelTests.testAddImageToLibrary():UICollectionViewViewModelTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "UICollectionViewViewModelTests.tearDownWithError():UICollectionViewViewModelTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.activateProgressView(forRow:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static UIImage.writeToDocumentsFolder(fromImageViewModel:):UIImage.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.collectionView(_:cellForItemAt:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.library![indexPath.row]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in UICollectionViewModel.editImageInLibraryInternal(image:atPosition:):UICollectionViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static UIImage.getImageName():UIImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "&quot;IMG_\(String(format: &quot;%04d&quot;, counter)).jpg&quot;">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UICollectionViewViewModel.addImageToLibraryInternal(image:busy:completion:):UICollectionViewViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static UIImage.writeToDocumentsfolder(imageViewModel:):UIImage.swift">
+      </ContextState>
+      <ContextState
+         contextName = "UIImage.crop():UIImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.cgImage?.cropping(to: rect.applying(rectTransform))">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.leftToRight(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageView.image!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in UICollectionViewModel.addImageToLibraryInternal(image:busy:):UICollectionViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.initLibrary():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "UIImage.readFromDocumentsFolder(urlString: editedImage.imageUrl!)">
+            </PersistentString>
+            <PersistentString
+               value = "editedImage.imageUrl">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.loadImages():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " try self.context.fetch(request)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LoadingViewController.setupView():LoadingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loadingScreenView.activityIndicatorView.isHidden">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.invertColors(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.row">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.getImageRow()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.flipHor():ViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "UICollectionViewViewModel.editImageInLibraryInternal(image:atRow:):UICollectionViewViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in UICollectionViewViewModel.addImageToLibraryInternal(image:busy:completion:):UICollectionViewViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.addImageToLibrary(image:busy:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageViewModel.name">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

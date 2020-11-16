@@ -18,12 +18,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var viewModel : UICollectionViewViewModel?
+    var picker = UIImagePickerController()
+    
+    var invertFilter = InvertImageFilter()
+    var mirrorFilter = MirrorImageFilter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         imageCollectionView.dataSource = self
         imageCollectionView.delegate = self
+        invertFilter.delegate = self
+        mirrorFilter.delegate = self
         
         setupUI()
         hideAllUIElements()
@@ -38,7 +44,7 @@ class ViewController: UIViewController {
                     } else {
                         self.imageCollectionView.reloadData()
                         let lastIndexPath = IndexPath(item: (library.count - 1), section: 0)
-                        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .bottom , animated: true)
+                        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
                         if let name = library[library.count-1].name {
                             self.imageView.image = UIImage.readFromDocumentsFolder(withName: name)
                         }
@@ -68,72 +74,24 @@ class ViewController: UIViewController {
     
     @IBAction func invertColors(_ sender: UIButton) {
         guard let viewModel = viewModel else { return }
-        invertColorsInternal(row: viewModel.row, completion: {
-            [unowned self]
-            (newImage, row) in
-            DispatchQueue.main.async {
-                
-                self.editImageInLibrary(image: newImage, atRow: row)
-                
-                if let name = viewModel.library![viewModel.library!.count - 1].name {
-                    self.imageView.image = UIImage.readFromDocumentsFolder(withName: name)
-                    viewModel.row = nil
-                    viewModel.saveData()
-                }
-            }
-            
-        })
+        invertFilter.applyFilter(viewModel: viewModel, image: imageView.image!,
+                                 completion: {
+                                    [unowned self]
+                                    row, image in
+                                        self.imageView.image = image
+                                        self.reloadItem(forRow: row, withImage: image)
+                                })
     }
     
     @IBAction func leftToRight(_ sender: UIButton) {
         guard let viewModel = viewModel else { return }
-        leftToRightInternal(row: viewModel.row, completion: {
-            [unowned self]
-            (newImage, row) in
-            DispatchQueue.main.async {
-                guard let viewModel = self.viewModel else { return }
-                self.editImageInLibrary(image: newImage, atRow: row)
-                if let name = viewModel.library![viewModel.library!.count - 1].name {
-                    self.imageView.image = UIImage.readFromDocumentsFolder(withName: name)
-                }
-                viewModel.row = nil
-            }
-            
-        })
-    }
-    
-    //    MARK: -ImageFilters
-    private func invertColorsInternal(row: Int?, completion: @escaping (UIImage, Int) -> ()) {
-        guard let image = imageView.image else { return }
-        guard let viewModel = viewModel else { return }
-        addImageToLibrary(image: image, busy: true)
-        let imageRow =  viewModel.getImageRow()!
-        
-        self.activateProgressView(forRow: imageRow)
-        
-        DispatchQueue.global().async {
-            [unowned self, unowned viewModel, unowned image] in
-            let newImage = viewModel.invertColorsInternal(image: image)
-            self.slowDown(forRow: imageRow)
-            completion(newImage!, imageRow)
-        }
-    }
-    
-    private func leftToRightInternal(row: Int?, completion: @escaping (UIImage, Int) -> ()) {
-        guard let viewModel = viewModel else { return }
-        guard let image = imageView.image else { return }
-        
-        addImageToLibrary(image: image, busy: true)
-        let imageRow =  viewModel.getImageRow()!
-        activateProgressView(forRow: imageRow)
-        
-        DispatchQueue.global().async {
-            [unowned self, unowned viewModel, unowned image] in
-            let finalImage = viewModel.leftToRightInternal(image: image)
-            self.slowDown(forRow: imageRow)
-            completion(finalImage, imageRow)
-        }
-        
+        mirrorFilter.applyFilter(viewModel: viewModel, image: imageView.image!,
+                                 completion: {
+                                    [unowned self]
+                                    row, image in
+                                        self.imageView.image = image
+                                        self.reloadItem(forRow: row, withImage: image)
+                                })
     }
     
     //    MARK: -Alert operations
@@ -142,9 +100,6 @@ class ViewController: UIViewController {
         alert.pruneNegativeWidthConstraints()
         alert.addAction(UIAlertAction(title: "Выбрать из галереи", style: .default, handler: {
             [unowned self] _ in
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.allowsEditing = false
             
             picker.sourceType = .photoLibrary
             picker.modalPresentationStyle = .fullScreen
@@ -153,9 +108,6 @@ class ViewController: UIViewController {
         }))
         alert.addAction(UIAlertAction(title: "Сделать фото", style: .default, handler: {
             [unowned self] _ in
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.allowsEditing = false
             
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 picker.sourceType = .camera
@@ -268,33 +220,73 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let dimension = imageCollectionView.bounds.width / 3.25
+        let dimension = imageCollectionView.bounds.width / 3.05
         return CGSize(width: dimension, height: dimension)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
     }
 }
-// MARK: -additional Methods
 
-extension ViewController {
-    
-    private func setupUI() {
-        self.activityIndicatorView.style = .large
-        self.activityIndicatorView.color = UIColor(named:  "Activity Indicator Color")
-        self.activityIndicatorView.startAnimating()
-        self.activityIndicatorView.isHidden = false
-        self.navigationController?.isNavigationBarHidden = true
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        imageCollectionView.collectionViewLayout = layout
-        imageCollectionView.register(UINib(nibName: Constants.CellProperties.cellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellProperties.cellName)
+extension ViewController: ImageFilterDelegate {
+    func addImageToLibrary(image: UIImage, busy: Bool) {
+        guard let viewModel = viewModel else { return }
+        if loadOrMakePhotoButton.isHidden == false {
+            showUIElements()
+        }
+
+        let imageViewModel = ImageViewModel(image: image, busy: busy, name: UIImage.getImageName())
+        viewModel.library!.append(imageViewModel)
+        
+        let editedImage = EditedImage(context: viewModel.context)
+        editedImage.name = imageViewModel.name
+        viewModel.editedImages?.append(editedImage)
+
+        DispatchQueue.global().async {
+            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)//check imageviewmodel
+            viewModel.saveData()
+        }
+
+//        DispatchQueue.main.async {
+//            [unowned self] in
+            self.imageCollectionView.reloadData()
+            let lastIndexPath = IndexPath(item: (viewModel.library!.count - 1), section: 0)
+            self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
+//        }
     }
     
-    private func slowDown(forRow row: Int?) {
-        DispatchQueue.global().sync {
-            [unowned self] in
+    func editImageInLibrary(image: UIImage, atRow row: Int) {
+        guard let viewModel = viewModel else { return }
+        viewModel.editImageInLibraryInternal(image: image, atRow: row, completion: {
+            (imageViewModel) in
+            let editedImage = viewModel.editedImages![row]
+            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)
+            editedImage.name = imageViewModel.name
+        })
+    }
+    
+    func reloadItem(forRow row: Int, withImage image: UIImage) {
+        let imageViewModelLocal = viewModel?.library![row]
+        guard let imageViewModel = imageViewModelLocal else { return }
+        imageViewModel.image = image
+        imageViewModel.generateThumbnail(from: image)
+        
+        let indexPath = IndexPath(item: (row), section: 0)
+        imageCollectionView.reloadItems(at: [indexPath])
+    }
+    
+    func slowDown(forRow row: Int?) {
+//        DispatchQueue.global().async {
+//            [unowned self] in
             let delayedSeconds = Int.random(in: Constants.SlowDownLimits.lowerLimit ... Constants.SlowDownLimits.upperLimit)
             var secondsPassed = 0
             
@@ -310,10 +302,10 @@ extension ViewController {
             }
             RunLoop.current.add(timer!, forMode: .default )
             RunLoop.current.run()
-        }
+//        }
     }
     
-    private func updateProgress(progress: Float, forRow row: Int?) {
+    func updateProgress(progress: Float, forRow row: Int?) {
         if let row = row {
             DispatchQueue.main.async {
                 [unowned self] in
@@ -327,37 +319,36 @@ extension ViewController {
         }
     }
     
-    private func addImageToLibrary(image: UIImage, busy: Bool) {
-        guard let viewModel = viewModel else { return }
-        if loadOrMakePhotoButton.isHidden == false {
-            showUIElements()
-        }
-        viewModel.addImageToLibraryInternal(image: image, busy: busy, completion: {
-            [unowned viewModel]
-            (imageViewModel: ImageViewModel) in
+    func activateProgressView(forRow row: Int) {
+        let indexPath = IndexPath(item: (row), section: 0)
+        let cell = self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell
+        if cell != nil {
             
-            let editedImage = EditedImage(context: viewModel.context)
-            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)
-            editedImage.name = imageViewModel.name
-            viewModel.editedImages?.append(editedImage)
-            viewModel.saveData()
-        })
-
-        imageCollectionView.reloadData()
-        let lastIndexPath = IndexPath(item: (viewModel.library!.count - 1), section: 0)
-        imageCollectionView.scrollToItem(at: lastIndexPath, at: .bottom , animated: true)
+        }
+        cell?.showProgressView()
     }
     
-    private func editImageInLibrary(image: UIImage, atRow row: Int) {
-        guard let viewModel = viewModel else { return }
-        viewModel.editImageInLibraryInternal(image: image, atRow: row, completion: {
-            (imageViewModel) in
-            let editedImage = viewModel.editedImages![row]
-            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)
-            editedImage.name = imageViewModel.name
-        })
-        let indexPath = IndexPath(item: (row), section: 0)
-        imageCollectionView.reloadItems(at: [indexPath])
+
+}
+// MARK: -additional Methods
+
+extension ViewController {
+    
+    private func setupUI() {
+        self.activityIndicatorView.style = .large
+        self.activityIndicatorView.color = UIColor(named:  "Activity Indicator Color")
+        self.activityIndicatorView.startAnimating()
+        self.activityIndicatorView.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        imageCollectionView.autoresizesSubviews = false
+        imageCollectionView.collectionViewLayout = layout
+        imageCollectionView.register(UINib(nibName: Constants.CellProperties.cellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellProperties.cellName)
+        
+        picker.delegate = self
+        picker.allowsEditing = false
     }
     
     private func showInitialUIElements() {
@@ -386,14 +377,6 @@ extension ViewController {
         loadOrMakePhotoButton.isHidden = true
     }
     
-    private func activateProgressView(forRow row: Int) {
-        let indexPath = IndexPath(item: (row), section: 0)
-        let cell = self.imageCollectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell
-        if cell != nil {
-            
-        }
-        cell?.showProgressView()
-    }
     
     private func loadImages(completion: @escaping () -> ()) {
         DispatchQueue.global().async {

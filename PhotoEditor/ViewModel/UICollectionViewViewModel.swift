@@ -36,17 +36,7 @@ class UICollectionViewViewModel {
     }
     
     //    MARK: -ImageFilters
-    func invertColorsInternal(image:UIImage) -> UIImage? {
-        let ciImage = CIImage(image: image)?.oriented(forExifOrientation: UIImageConverter.imageOrientationToTiffOrientation(value: image.imageOrientation))
-        if let filter = CIFilter(name: "CIColorInvert") {
-            filter.setValue(ciImage, forKey: kCIInputImageKey)
-            let newImage = UIImageConverter.convertCIImageToUIImage(inputImage: filter.outputImage!)
-            return newImage
-        }
-        return nil
-    }
-    
-    func leftToRightInternal(image: UIImage) -> UIImage {
+    func mirror(image: UIImage) -> UIImage {
         let size = image.size
         let scale = image.scale
         let cgImage = image.getCGImageWithFixedOrientation()!
@@ -76,13 +66,14 @@ class UICollectionViewViewModel {
         return finalImage
     }
     
-    func addImageToLibraryInternal(image: UIImage, busy: Bool, completion: @escaping ((ImageViewModel)) -> () ) {
-        let imageViewModel = ImageViewModel(image: image, busy: busy, name: UIImage.getImageName())
-        library!.append(imageViewModel)
-        DispatchQueue.global().async {
-            completion(imageViewModel)
-        }
-    }
+//    func addImageToLibraryInternal(image: UIImage, busy: Bool, completion: @escaping ((ImageViewModel)) -> () ) {
+//        let imageViewModel = ImageViewModel(image: image, busy: busy, name: UIImage.getImageName())
+//        library!.append(imageViewModel)
+//
+//        DispatchQueue.global().async {
+//            completion(imageViewModel)
+//        }
+//    }
     
     func editImageInLibraryInternal(image: UIImage, atRow row: Int, completion: @escaping ((ImageViewModel)) -> () ) {
         library![row].image = image

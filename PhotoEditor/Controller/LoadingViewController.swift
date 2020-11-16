@@ -66,7 +66,7 @@ class LoadingViewController: UIViewController {
     }
     
     func loadData(completion: @escaping () -> ()) {
-        DispatchQueue.global().sync {
+        DispatchQueue.global().async {
             [unowned self] in
             let request : NSFetchRequest<EditedImage> = EditedImage.fetchRequest()
             do {

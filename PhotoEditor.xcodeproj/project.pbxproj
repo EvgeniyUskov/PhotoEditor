@@ -20,6 +20,12 @@
 		4469509325510E0D00115E74 /* UICollectionViewViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4469509225510E0D00115E74 /* UICollectionViewViewModelTests.swift */; };
 		4469509E25511D3C00115E74 /* AsyncOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4469509D25511D3C00115E74 /* AsyncOperationTest.swift */; };
 		446950A62551343A00115E74 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446950A52551343A00115E74 /* UIAlertController.swift */; };
+		4472ED55255CF7280056ADEE /* ImageFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472ED54255CF7280056ADEE /* ImageFilterType.swift */; };
+		4472ED59255CF76E0056ADEE /* InvertImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472ED58255CF76E0056ADEE /* InvertImageFilter.swift */; };
+		4472ED61255CFA0D0056ADEE /* ImageFilterBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472ED60255CFA0D0056ADEE /* ImageFilterBase.swift */; };
+		4472ED65255CFC420056ADEE /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472ED64255CFC420056ADEE /* UIWindow.swift */; };
+		44A92F0A255E34BB00EB04D1 /* ImageFilterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A92F09255E34BB00EB04D1 /* ImageFilterDelegate.swift */; };
+		44A92F10255E600F00EB04D1 /* MirrorImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A92F0F255E600F00EB04D1 /* MirrorImageFilter.swift */; };
 		44ADFD9F254840BB00A63D48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ADFD9E254840BB00A63D48 /* AppDelegate.swift */; };
 		44ADFDA1254840BB00A63D48 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ADFDA0254840BB00A63D48 /* SceneDelegate.swift */; };
 		44ADFDA3254840BB00A63D48 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ADFDA2254840BB00A63D48 /* ViewController.swift */; };
@@ -54,6 +60,12 @@
 		4469509225510E0D00115E74 /* UICollectionViewViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewViewModelTests.swift; sourceTree = "<group>"; };
 		4469509D25511D3C00115E74 /* AsyncOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperationTest.swift; sourceTree = "<group>"; };
 		446950A52551343A00115E74 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
+		4472ED54255CF7280056ADEE /* ImageFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterType.swift; sourceTree = "<group>"; };
+		4472ED58255CF76E0056ADEE /* InvertImageFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertImageFilter.swift; sourceTree = "<group>"; };
+		4472ED60255CFA0D0056ADEE /* ImageFilterBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterBase.swift; sourceTree = "<group>"; };
+		4472ED64255CFC420056ADEE /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
+		44A92F09255E34BB00EB04D1 /* ImageFilterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterDelegate.swift; sourceTree = "<group>"; };
+		44A92F0F255E600F00EB04D1 /* MirrorImageFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorImageFilter.swift; sourceTree = "<group>"; };
 		44ADFD9B254840BB00A63D48 /* PhotoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ADFD9E254840BB00A63D48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44ADFDA0254840BB00A63D48 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,10 +109,23 @@
 		44877D992551363E00E43860 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				4472ED64255CFC420056ADEE /* UIWindow.swift */,
+				4472ED60255CFA0D0056ADEE /* ImageFilterBase.swift */,
 				44ADFD9E254840BB00A63D48 /* AppDelegate.swift */,
 				44ADFDA0254840BB00A63D48 /* SceneDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		44A92F13255E6CC200EB04D1 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				4472ED54255CF7280056ADEE /* ImageFilterType.swift */,
+				44A92F09255E34BB00EB04D1 /* ImageFilterDelegate.swift */,
+				4472ED58255CF76E0056ADEE /* InvertImageFilter.swift */,
+				44A92F0F255E600F00EB04D1 /* MirrorImageFilter.swift */,
+			);
+			path = Filters;
 			sourceTree = "<group>";
 		};
 		44ADFD92254840BB00A63D48 = {
@@ -128,6 +153,7 @@
 				44F38279254F89470069D8DA /* Utils */,
 				44285FB425484BC500677190 /* Model */,
 				44ADFDD4254840CE00A63D48 /* View */,
+				44A92F13255E6CC200EB04D1 /* Filters */,
 				44F3827A254F896A0069D8DA /* ViewModel */,
 				44ADFDD8254840D700A63D48 /* Controller */,
 				44ADFDAF254840BE00A63D48 /* Info.plist */,
@@ -309,9 +335,15 @@
 				442ABCCE254F8ED6005BE678 /* UIImageConverter.swift in Sources */,
 				44285FB025484BBF00677190 /* ImageViewModel.swift in Sources */,
 				4469508E255091A300115E74 /* UICollectionViewViewModel.swift in Sources */,
+				4472ED59255CF76E0056ADEE /* InvertImageFilter.swift in Sources */,
 				44ADFDA3254840BB00A63D48 /* ViewController.swift in Sources */,
+				4472ED61255CFA0D0056ADEE /* ImageFilterBase.swift in Sources */,
+				44A92F0A255E34BB00EB04D1 /* ImageFilterDelegate.swift in Sources */,
+				4472ED55255CF7280056ADEE /* ImageFilterType.swift in Sources */,
 				44285FBA25484E1300677190 /* ImageCollectionViewCell.swift in Sources */,
 				44ADFDA9254840BB00A63D48 /* PhotoEditor.xcdatamodeld in Sources */,
+				44A92F10255E600F00EB04D1 /* MirrorImageFilter.swift in Sources */,
+				4472ED65255CFC420056ADEE /* UIWindow.swift in Sources */,
 				44ADFD9F254840BB00A63D48 /* AppDelegate.swift in Sources */,
 				442ABCC9254F8B15005BE678 /* Constants.swift in Sources */,
 				44F8C4DC254EFF0300B4D3A7 /* LoadingViewController.swift in Sources */,

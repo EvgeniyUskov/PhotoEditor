@@ -17,9 +17,14 @@ class ImageCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
     func setup(imageViewModel: ImageViewModel) {
         self.image = imageViewModel
-        self.imageView.image = UIImage(data: (image?.image!.compress(to: 256) )! )!
+        self.imageView.image = image?.thumbnail
         progressView.progress = 0.0
         progressView.isHidden = !image!.isBusy
     }

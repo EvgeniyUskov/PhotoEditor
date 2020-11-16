@@ -123,16 +123,15 @@ extension UIImage {
     
     static func writeToDocumentsFolder(fromImageViewModel imageViewModel: ImageViewModel)  {
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
         guard let name = imageViewModel.name else { return }
         guard let image = imageViewModel.image else { return }
         
         let url = documents.appendingPathComponent(name)
-        if let data = image.jpegData(compressionQuality: 1.0) {
+        if let data = image.jpegData(compressionQuality: 1.0) { //TODO: разобратся с качеством
             do {
                 try data.write(to: url)
             } catch {
-                print("Unable to Write Image Data to Disk")
+                print("Error: Unable to Write Image Data to Disk")
             }
         }
     }
@@ -145,7 +144,7 @@ extension UIImage {
         if fileManager.fileExists(atPath: imagePath){
             return UIImage(contentsOfFile: imagePath)
         } else {
-            print("No such Image with name: \(name)")
+            print("Error: No such Image with name: \(name)")
             return nil
         }
     }
