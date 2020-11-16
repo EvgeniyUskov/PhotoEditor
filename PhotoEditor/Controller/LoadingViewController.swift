@@ -19,7 +19,7 @@ class LoadingViewController: UIViewController {
         return view
     }()
     
-    var editedImages = [EditedImage]()
+    var imageInfos = [ImageInfo]()
     var library = [ImageViewModel]()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -68,9 +68,9 @@ class LoadingViewController: UIViewController {
     func loadData(completion: @escaping () -> ()) {
         DispatchQueue.global().async {
             [unowned self] in
-            let request : NSFetchRequest<EditedImage> = EditedImage.fetchRequest()
+            let request : NSFetchRequest<ImageInfo> = ImageInfo.fetchRequest()
             do {
-                self.editedImages = try self.context.fetch(request)
+                self.imageInfos = try self.context.fetch(request)
                 completion()
             } catch {
                 print("Error fetching data from context: \(error)")
@@ -82,18 +82,18 @@ class LoadingViewController: UIViewController {
         var viewModels = [ImageViewModel]()
         DispatchQueue.main.async {
             [unowned self] in
-            if self.editedImages.isEmpty {
+            if self.imageInfos.isEmpty {
                 loadingScreenView.stopAnimatingActivityIndicator()
                 self.performSegue(withIdentifier: Constants.Segues.segueToMainScreen, sender: self)
             }
             else {
-                for editedImage in editedImages {
-                    if let name = editedImage.name {
+                for imageInfo in imageInfos {
+                    if let name = imageInfo.name {
                         if let image = UIImage.readFromDocumentsFolder(withName: name) {
                             viewModels.append(
                                 ImageViewModel(
                                     image: image,
-                                    name: editedImage.name!
+                                    name: imageInfo.name!
                                 )
                             )
                         }
@@ -110,7 +110,7 @@ class LoadingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segues.segueToMainScreen {
             let viewController = segue.destination as! ViewController
-            viewController.viewModel = UICollectionViewViewModel(editedImages: self.editedImages, imageViewModels: self.library)
+            viewController.viewModel = UICollectionViewViewModel(imageInfos: self.imageInfos, imageViewModels: self.library)
         }
         //        viewLocal.activityIndicatorView.stopAnimating()
     }

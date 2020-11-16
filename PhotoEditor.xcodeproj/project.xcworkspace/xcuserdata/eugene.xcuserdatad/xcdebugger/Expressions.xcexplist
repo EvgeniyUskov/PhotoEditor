@@ -134,6 +134,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ImageViewModel.generateThumbnail(from:):ImageViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "image.resized()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in UICollectionViewModel.editImageInLibraryInternal(image:atPosition:):UICollectionViewModel.swift">
       </ContextState>
       <ContextState

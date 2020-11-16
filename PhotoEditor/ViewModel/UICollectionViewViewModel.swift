@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class UICollectionViewViewModel {
-    var editedImages: [EditedImage]?
+    var imageInfos: [ImageInfo]?
     var library: [ImageViewModel]?
     
     var row: Int?
@@ -17,8 +17,8 @@ class UICollectionViewViewModel {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    init(editedImages: [EditedImage], imageViewModels: [ImageViewModel]) {
-        self.editedImages = editedImages
+    init(imageInfos: [ImageInfo], imageViewModels: [ImageViewModel]) {
+        self.imageInfos = imageInfos
         self.library = imageViewModels
     }
     
@@ -89,8 +89,8 @@ class UICollectionViewViewModel {
     }
     
     func deleteData(at row: Int) {
-        context.delete(editedImages![row])
-        editedImages?.remove(at: row)
+        context.delete(imageInfos![row])
+        imageInfos?.remove(at: row)
         saveData()
     }
     

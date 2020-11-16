@@ -247,30 +247,27 @@ extension ViewController: ImageFilterDelegate {
         let imageViewModel = ImageViewModel(image: image, busy: busy, name: UIImage.getImageName())
         viewModel.library!.append(imageViewModel)
         
-        let editedImage = EditedImage(context: viewModel.context)
-        editedImage.name = imageViewModel.name
-        viewModel.editedImages?.append(editedImage)
+        let imageInfo = ImageInfo(context: viewModel.context)
+        imageInfo.name = imageViewModel.name
+        viewModel.imageInfos?.append(imageInfo)
 
         DispatchQueue.global().async {
             UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)//check imageviewmodel
             viewModel.saveData()
         }
 
-//        DispatchQueue.main.async {
-//            [unowned self] in
-            self.imageCollectionView.reloadData()
-            let lastIndexPath = IndexPath(item: (viewModel.library!.count - 1), section: 0)
-            self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
-//        }
+        self.imageCollectionView.reloadData()
+        let lastIndexPath = IndexPath(item: (viewModel.library!.count - 1), section: 0)
+        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
     }
     
     func editImageInLibrary(image: UIImage, atRow row: Int) {
         guard let viewModel = viewModel else { return }
         viewModel.editImageInLibraryInternal(image: image, atRow: row, completion: {
             (imageViewModel) in
-            let editedImage = viewModel.editedImages![row]
+            let imageInfo = viewModel.imageInfos![row]
             UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)
-            editedImage.name = imageViewModel.name
+            imageInfo.name = imageViewModel.name
         })
     }
     
@@ -285,8 +282,6 @@ extension ViewController: ImageFilterDelegate {
     }
     
     func slowDown(forRow row: Int?) {
-//        DispatchQueue.global().async {
-//            [unowned self] in
             let delayedSeconds = Int.random(in: Constants.SlowDownLimits.lowerLimit ... Constants.SlowDownLimits.upperLimit)
             var secondsPassed = 0
             
@@ -302,7 +297,6 @@ extension ViewController: ImageFilterDelegate {
             }
             RunLoop.current.add(timer!, forMode: .default )
             RunLoop.current.run()
-//        }
     }
     
     func updateProgress(progress: Float, forRow row: Int?) {
@@ -382,9 +376,9 @@ extension ViewController {
         DispatchQueue.global().async {
             [unowned self] in
             guard let viewModel = self.viewModel else {return}
-            let request : NSFetchRequest<EditedImage> = EditedImage.fetchRequest()
+            let request : NSFetchRequest<ImageInfo> = ImageInfo.fetchRequest()
             do {
-                viewModel.editedImages = try viewModel.context.fetch(request)
+                viewModel.imageInfos = try viewModel.context.fetch(request)
                 completion()
             } catch {
                 print("Error fetching data from context: \(error)")

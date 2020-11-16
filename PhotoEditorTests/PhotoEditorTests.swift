@@ -13,19 +13,19 @@ class PhotoEditorTests: XCTestCase {
     let testImg = UIImage(named: "testImage")
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    var edImg01: EditedImage?
+    var imgInf01: ImageInfo?
     var imgViewModel01: ImageViewModel?
     
     override func setUpWithError() throws {
-        edImg01 = EditedImage(context: context)
-        edImg01!.name = fileName
+        imgInf01 = ImageInfo(context: context)
+        imgInf01!.name = fileName
         imgViewModel01 = ImageViewModel(image: testImg!, name: fileName)
         
     }
 
     override func tearDownWithError() throws {
-        context.delete(edImg01!)
-        edImg01 = nil
+        context.delete(imgInf01!)
+        imgInf01 = nil
         imgViewModel01 = nil
     }
     
@@ -45,10 +45,10 @@ class PhotoEditorTests: XCTestCase {
         XCTAssertEqual(imageViewModel.isBusy, true, "Error parameter: isBusy")
     }
     
-    func testConvertEditedImageToImageViewModel (){
-        let editedImage = EditedImage(context: context)
-        let imageViewModel = ImageViewModel.fromEditedImage(editedImage: editedImage, name: fileName)
-        XCTAssertEqual(imageViewModel?.name, editedImage.name, "Error parameter: name")
+    func testConvertImageInfoToImageViewModel (){
+        let imageInfo = ImageInfo(context: context)
+        let imageViewModel = ImageViewModel.fromImageInfo(imageInfo: imageInfo, name: fileName)
+        XCTAssertEqual(imageViewModel?.name, imageInfo.name, "Error parameter: name")
     }
     
     func testConvertToCGImage() {

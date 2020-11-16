@@ -18,7 +18,7 @@ class ImageViewModel {
         self.image = image
         self.isBusy = false
         self.name = name
-        self.thumbnail = UIImage(data: (image.compress(to: 256)) )!
+        generateThumbnail(from: image)
     }
     
     init(image: UIImage, busy: Bool, name: String) {
@@ -28,7 +28,7 @@ class ImageViewModel {
         generateThumbnail(from: image)
     }
 
-    static func fromEditedImage(editedImage: EditedImage, name: String) -> ImageViewModel? {
+    static func fromImageInfo(imageInfo: ImageInfo, name: String) -> ImageViewModel? {
         guard let image = UIImage.readFromDocumentsFolder(withName: name) else { return nil }
         
         return ImageViewModel(image: image,
@@ -37,6 +37,6 @@ class ImageViewModel {
     }
     
     func generateThumbnail(from image: UIImage ) {
-        self.thumbnail = UIImage(data: (image.compress(to: 256)) )!
+        self.thumbnail = image.resized()
     }
 }

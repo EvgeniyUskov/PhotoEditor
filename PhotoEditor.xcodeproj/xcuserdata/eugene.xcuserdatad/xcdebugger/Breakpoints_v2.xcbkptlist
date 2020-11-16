@@ -104,32 +104,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "19126F6D-8955-4126-AB2D-4825C8166C7A"
-            shouldBeEnabled = "No"
+            uuid = "97B16864-DF7D-4091-B981-E96F8EE3BB0D"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhotoEditor/Controller/ViewController.swift"
+            filePath = "PhotoEditor/ViewModel/ImageViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
-            landmarkName = "updateProgress(progress:forRow:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "716BDE01-0BBE-4AF0-9D18-7D68273AA800"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotoEditor/Controller/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "generateThumbnail(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
