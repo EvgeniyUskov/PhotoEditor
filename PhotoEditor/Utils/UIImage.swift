@@ -100,45 +100,6 @@ extension UIImage {
         }
     }
     
-    static func writeToDocumentsFolder(fromImageViewModel imageViewModel: ImageViewModel)  {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        guard let name = imageViewModel.name else { return }
-        guard let image = imageViewModel.image else { return }
-        
-        let url = documents.appendingPathComponent(name)
-        if let data = image.jpegData(compressionQuality: 1.0) { //TODO: разобратся с качеством
-            do {
-                try data.write(to: url)
-            } catch {
-                print("Error: Unable to Write Image Data to Disk")
-            }
-        }
-    }
-    
-    static func readFromDocumentsFolder(withName name: String) -> UIImage? {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        let fileManager = FileManager.default
-        let imagePath = documents.appendingPathComponent(name).path
-        if fileManager.fileExists(atPath: imagePath){
-            return UIImage(contentsOfFile: imagePath)
-        } else {
-            print("Error: No such Image with name: \(name)")
-            return nil
-        }
-    }
-    
-    static func deleteFromDocumentsFolder(withName name: String) {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        let fileManager = FileManager.default
-        let imagePath = documents.appendingPathComponent(name).path
-        
-        if fileManager.fileExists(atPath: imagePath) {
-            try! fileManager.removeItem(atPath: imagePath)
-        }
-    }
-    
     static func getDocumentsDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]

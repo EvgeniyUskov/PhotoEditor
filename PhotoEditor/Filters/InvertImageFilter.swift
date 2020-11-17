@@ -10,6 +10,8 @@ import UIKit
 
 struct InvertImageFilter: ImageFilterType {
     
+    let imageInfoDAO = CoreDataDAOImpl.shared
+    
     var delegate: ImageFilterDelegate?
     
     func applyFilter(viewModel: UICollectionViewViewModel, image: UIImage, completion: @escaping (Int, UIImage) -> ()) {
@@ -31,10 +33,10 @@ struct InvertImageFilter: ImageFilterType {
             DispatchQueue.main.async {
                 delegate?.editImageInLibrary(image: imageLocal, atRow: imageRow)
                 if let _ = viewModel.library![viewModel.library!.count - 1].name {
-                    DispatchQueue.global().async {
-                        viewModel.row = nil
-                        viewModel.saveData()
-                    }
+                    
+                    viewModel.row = nil
+                    self.imageInfoDAO.saveImageInfos()
+                    
                     completion(imageRow, imageLocal)
                 }
             }

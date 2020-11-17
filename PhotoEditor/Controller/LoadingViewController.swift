@@ -22,7 +22,8 @@ class LoadingViewController: UIViewController {
     var imageInfos = [ImageInfo]()
     var library = [ImageViewModel]()
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let imageInfoDAO = CoreDataDAOImpl.shared
+    let imageDAO = DocumentsDAOImpl.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +32,7 @@ class LoadingViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        loadData(completion: {
-            [unowned self] in
-            self.initLibrary()
-        })
+        loadData()
     }
     
     func setupView() {
@@ -65,41 +63,29 @@ class LoadingViewController: UIViewController {
         loadingScreenView.startAnimatingActivityIndicator()
     }
     
-    func loadData(completion: @escaping () -> ()) {
+    func loadData() {
         DispatchQueue.global().async {
             [unowned self] in
-            let request : NSFetchRequest<ImageInfo> = ImageInfo.fetchRequest()
-            do {
-                self.imageInfos = try self.context.fetch(request)
-                completion()
-            } catch {
-                print("Error fetching data from context: \(error)")
-            }
+            imageInfoDAO.loadImageInfos(completion: {
+                [unowned self]
+                imageInfos in
+                self.initLibrary(imageInfos: imageInfos)
+            })
         }
     }
     
-    func initLibrary() {
-        var viewModels = [ImageViewModel]()
+    func initLibrary(imageInfos: [ImageInfo]) {
+        
         DispatchQueue.main.async {
             [unowned self] in
-            if self.imageInfos.isEmpty {
+            if imageInfos.isEmpty {
                 loadingScreenView.stopAnimatingActivityIndicator()
                 self.performSegue(withIdentifier: Constants.Segues.segueToMainScreen, sender: self)
             }
             else {
-                for imageInfo in imageInfos {
-                    if let name = imageInfo.name {
-                        if let image = UIImage.readFromDocumentsFolder(withName: name) {
-                            viewModels.append(
-                                ImageViewModel(
-                                    image: image,
-                                    name: imageInfo.name!
-                                )
-                            )
-                        }
-                    }
-                }
-                library = viewModels
+                self.imageInfos = imageInfos
+                library = imageDAO.loadImages(imageInfos: imageInfos)
+                
                 loadingScreenView.stopAnimatingActivityIndicator()
                 performSegue(withIdentifier: Constants.Segues.segueToMainScreen, sender: self)
             }
@@ -112,6 +98,5 @@ class LoadingViewController: UIViewController {
             let viewController = segue.destination as! ViewController
             viewController.viewModel = UICollectionViewViewModel(imageInfos: self.imageInfos, imageViewModels: self.library)
         }
-        //        viewLocal.activityIndicatorView.stopAnimating()
     }
 }

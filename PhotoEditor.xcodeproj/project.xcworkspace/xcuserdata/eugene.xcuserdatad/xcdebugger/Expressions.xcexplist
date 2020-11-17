@@ -18,13 +18,13 @@
          contextName = "specialized closure #1 in ViewController.invertColors(row:completion:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "UIImage.Orientation.down.rawValue">
+               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
             </PersistentString>
             <PersistentString
                value = "image.imageOrientation">
             </PersistentString>
             <PersistentString
-               value = "self.imageOrientationToTiffOrientation(value: image.imageOrientation)">
+               value = "UIImage.Orientation.down.rawValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -33,6 +33,11 @@
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lastIndexPath.row">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ViewController.invertColors():ViewController.swift">
@@ -227,6 +232,9 @@
       <ContextState
          contextName = "ViewController.addImageToLibrary(image:busy:):ViewController.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "lastIndexPath.row">
+            </PersistentString>
             <PersistentString
                value = "imageViewModel.name">
             </PersistentString>

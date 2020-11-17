@@ -15,6 +15,9 @@ class UICollectionViewViewModel {
     var row: Int?
     var isLastElement: Bool = true
     
+    let imageDAO = DocumentsDAOImpl.shared
+    let imageInfoDAO = CoreDataDAOImpl.shared
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     init(imageInfos: [ImageInfo], imageViewModels: [ImageViewModel]) {
@@ -65,44 +68,24 @@ class UICollectionViewViewModel {
         let finalImage: UIImage = UIImage(cgImage: image)
         return finalImage
     }
-    
-//    func addImageToLibraryInternal(image: UIImage, busy: Bool, completion: @escaping ((ImageViewModel)) -> () ) {
-//        let imageViewModel = ImageViewModel(image: image, busy: busy, name: UIImage.getImageName())
-//        library!.append(imageViewModel)
-//
+//TODO: refactor this
+//    func editImageInLibraryInternal(image: UIImage, atRow row: Int, completion: @escaping ((ImageViewModel)) -> () ) {
+//        library![row].image = image
+//        library![row].isBusy = false
 //        DispatchQueue.global().async {
-//            completion(imageViewModel)
+//            [unowned self] in
+//            completion(self.library![row])
 //        }
 //    }
-    
-    func editImageInLibraryInternal(image: UIImage, atRow row: Int, completion: @escaping ((ImageViewModel)) -> () ) {
-        library![row].image = image
-        library![row].isBusy = false
-        DispatchQueue.global().async {
-            [unowned self] in
-            completion(self.library![row])
-        }
-    }
     
     func deleteFromLibrary(at row: Int){
         library!.remove(at: row)
     }
     
     func deleteData(at row: Int) {
-        context.delete(imageInfos![row])
+        imageInfoDAO.deleteImageInfo(imageInfo: imageInfos![row])
         imageInfos?.remove(at: row)
-        saveData()
-    }
-    
-    func saveData() {
-        DispatchQueue.global().async {
-            [unowned self] in
-            do {
-                try self.context.save()
-            } catch {
-                print("Error saving context: \(error)")
-            }
-        }
+        imageInfoDAO.saveImageInfos()
     }
     
     func isLibraryEmpty() -> Bool {

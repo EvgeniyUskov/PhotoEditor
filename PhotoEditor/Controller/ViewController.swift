@@ -17,9 +17,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
+    var flag = false
+    
     var viewModel : UICollectionViewViewModel?
     var picker = UIImagePickerController()
     
+    var imageInfoDAO = CoreDataDAOImpl.shared
+    var imageDAO = DocumentsDAOImpl.shared
+
     var invertFilter = InvertImageFilter()
     var mirrorFilter = MirrorImageFilter()
     
@@ -39,20 +44,17 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 guard let viewModel = viewModel else { return }
                 if let library = viewModel.library {
+                    
                     if (library.isEmpty) {
                         self.showInitialUIElements()
                     } else {
                         self.imageCollectionView.reloadData()
-                        let lastIndexPath = IndexPath(item: (library.count - 1), section: 0)
-                        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
-                        if let name = library[library.count-1].name {
-                            self.imageView.image = UIImage.readFromDocumentsFolder(withName: name)
-                        }
+                        self.imageView.image = library[library.count-1].image
                         self.showUIElements()
                     }
                     self.invertColorsButton.layer.cornerRadius = 10
                     self.leftToRightButton.layer.cornerRadius = 10
-                    
+                    scrollToLastItem()
                     self.imageView.tappedFunction = {
                         [unowned self]
                         (gesture: UIGestureRecognizer) in
@@ -66,6 +68,10 @@ class ViewController: UIViewController {
                 self.activityIndicatorView.isHidden = true
             }
         })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        scrollToLastItem()
     }
     
     @IBAction func loadOrMakePhoto(_ sender: Any) {
@@ -124,9 +130,9 @@ class ViewController: UIViewController {
     
     private func showCellAlert(at indexPath: IndexPath) {
         guard let viewModel = viewModel else { return }
-        let image: ImageViewModel = viewModel.library![indexPath.row]
+        let imageViewModel: ImageViewModel = viewModel.library![indexPath.row]
         
-        if image.isBusy == true{
+        if imageViewModel.isBusy == true{
             let alert = UIAlertController(title: "Изображение обрабатывается...", message: "Подалуйста подождите.", preferredStyle: .alert )
             alert.pruneNegativeWidthConstraints()
             alert.addAction(UIAlertAction(title: "Отмена", style: .default, handler: nil))
@@ -136,30 +142,31 @@ class ViewController: UIViewController {
             alert.pruneNegativeWidthConstraints()
             alert.addAction(UIAlertAction(title: "Сохранить в галерею", style: .default, handler: {
                 [unowned self] _ in
-                if let image = image.image {
+                if let image = imageViewModel.image {
                     UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.saveError), nil)
                 }
                 
             } ))
             alert.addAction(UIAlertAction(title: "Редактировать фото", style: .default, handler: {
                 [unowned self] _ in
-                imageView.image = UIImage.readFromDocumentsFolder(withName: image.name!)
+                imageView.image = imageViewModel.image
                 viewModel.row = indexPath.row
+                scrollToLastItem()
             } ))
             alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: {
                 [unowned self] _ in
-                if let _ = image.image {
+                if let _ = imageViewModel.image {
                     viewModel.deleteFromLibrary(at: indexPath.row)
                     if viewModel.isLibraryEmpty() {
                         showInitialUIElements()
                     }
                     imageCollectionView.reloadData()
                     if !viewModel.isLibraryEmpty() {
-                        imageView.image = UIImage.readFromDocumentsFolder(withName: viewModel.library![viewModel.library!.count - 1].name!)
+                        imageView.image = viewModel.library![viewModel.library!.count - 1].image
                     }
                     DispatchQueue.global().async {
-                        if let name = image.name {
-                            UIImage.deleteFromDocumentsFolder(withName: name)
+                        if let name = imageViewModel.name {
+                            imageDAO.deleteImage(withName: name)
                         }
                     }
                     viewModel.deleteData(at: indexPath.row)
@@ -196,6 +203,13 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             viewModel.isLastElement = true
         }
         showCellAlert(at: indexPath)
+    }
+    
+    func scrollToLastItem() {
+        guard let viewModel = viewModel else { return }
+        guard let library = viewModel.library else { return }
+        let lastIndexPath = IndexPath(item: (library.count - 1), section: 0)
+        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .bottom , animated: true)
     }
     
 }
@@ -252,23 +266,26 @@ extension ViewController: ImageFilterDelegate {
         viewModel.imageInfos?.append(imageInfo)
 
         DispatchQueue.global().async {
-            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)//check imageviewmodel
-            viewModel.saveData()
+            [unowned self] in
+            imageDAO.saveImage(fromImageViewModel: imageViewModel)
+            self.imageInfoDAO.saveImageInfos()
         }
 
         self.imageCollectionView.reloadData()
-        let lastIndexPath = IndexPath(item: (viewModel.library!.count - 1), section: 0)
-        self.imageCollectionView.scrollToItem(at: lastIndexPath, at: .centeredHorizontally , animated: true)
+        scrollToLastItem()
     }
     
     func editImageInLibrary(image: UIImage, atRow row: Int) {
         guard let viewModel = viewModel else { return }
-        viewModel.editImageInLibraryInternal(image: image, atRow: row, completion: {
-            (imageViewModel) in
+        let imageViewModel = viewModel.library![row]
+        imageViewModel.image = image
+        imageViewModel.isBusy = false
+        DispatchQueue.global().async {
+            [unowned self, unowned imageViewModel] in
             let imageInfo = viewModel.imageInfos![row]
-            UIImage.writeToDocumentsFolder(fromImageViewModel: imageViewModel)
+            self.imageDAO.saveImage(fromImageViewModel: imageViewModel)
             imageInfo.name = imageViewModel.name
-        })
+        }
     }
     
     func reloadItem(forRow row: Int, withImage image: UIImage) {
@@ -340,7 +357,6 @@ extension ViewController {
         imageCollectionView.autoresizesSubviews = false
         imageCollectionView.collectionViewLayout = layout
         imageCollectionView.register(UINib(nibName: Constants.CellProperties.cellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellProperties.cellName)
-        
         picker.delegate = self
         picker.allowsEditing = false
     }

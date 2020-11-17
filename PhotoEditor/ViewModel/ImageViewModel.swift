@@ -9,6 +9,9 @@ import UIKit
 import CoreData
 
 class ImageViewModel {
+    
+    static let imageDAO = DocumentsDAOImpl.shared
+    
     var image: UIImage?
     var thumbnail: UIImage?
     var isBusy: Bool = false
@@ -29,7 +32,7 @@ class ImageViewModel {
     }
 
     static func fromImageInfo(imageInfo: ImageInfo, name: String) -> ImageViewModel? {
-        guard let image = UIImage.readFromDocumentsFolder(withName: name) else { return nil }
+        guard let image = imageDAO.loadImage(withName: name) else { return nil }
         
         return ImageViewModel(image: image,
                               busy: false,

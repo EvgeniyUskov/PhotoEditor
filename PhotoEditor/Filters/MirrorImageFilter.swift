@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 class MirrorImageFilter: ImageFilterType {
+    
+    let imageInfoDAO = CoreDataDAOImpl.shared
+    
     var delegate: ImageFilterDelegate?
     
     func applyFilter(viewModel: UICollectionViewViewModel, image: UIImage, completion: @escaping (Int, UIImage) -> ()) {
@@ -29,7 +32,7 @@ class MirrorImageFilter: ImageFilterType {
                 if let _ = viewModel.library![viewModel.library!.count - 1].name {
                     DispatchQueue.global().async {
                         viewModel.row = nil
-                        viewModel.saveData()
+                        imageInfoDAO.saveImageInfos()
                     }
                     completion(imageRow, finalImage)
                 }
