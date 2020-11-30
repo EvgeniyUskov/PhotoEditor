@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import CoreData
 
-class CoreDataDAOImpl: ImageInfoDAO {
-    static let shared = CoreDataDAOImpl()
+class CoreDataImageInfoStorage: ImageInfoStorage {
+    static let shared = CoreDataImageInfoStorage()
     private init() {}
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

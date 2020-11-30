@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ImageInfoDAO {
+protocol ImageInfoStorage {
     
     func loadImageInfos(completion: @escaping ([ImageInfo]) -> () )
     func saveImageInfos()

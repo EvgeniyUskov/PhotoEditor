@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ImageDAO {
+protocol ImageStorage {
     
     func loadImage(withName name: String) -> UIImage?
     func loadImages(imageInfos: [ImageInfo]) -> [ImageViewModel]

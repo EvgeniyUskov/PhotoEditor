@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-class DocumentsDAOImpl: ImageDAO {
+class DocumentsImageStorage: ImageStorage {
     
-    static let shared = DocumentsDAOImpl()
+    static let shared = DocumentsImageStorage()
     private init() {}
     
     func loadImage(withName name: String) -> UIImage? {
